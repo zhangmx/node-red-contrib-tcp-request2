@@ -83,7 +83,7 @@ module.exports = function (RED) {
         // if (this.out === "immed") { this.waitingTime = -1; this.out = "time"; }
         // if (this.out !== "char") { this.waitingLength = Number(this.waitingLength); }
         // else {
-        if(this.out === "char")
+        if(this.out === "char") {
             if (this.splitc[0] == '\\') {
                 this.splitc = parseInt(this.splitc.replace("\\n", 0x0A).replace("\\r", 0x0D).replace("\\t", 0x09).replace("\\e", 0x1B).replace("\\f", 0x0C).replace("\\0", 0x00));
             } // jshint ignore:line
@@ -185,7 +185,7 @@ module.exports = function (RED) {
                     clients[connection_id].connecting = true;
                     clients[connection_id].client.connect(connOpts, function () {
                         //node.log(RED._("tcpin.errors.client-connected"));
-                        node.status({ fill: "green", shape: "dot", text: "common.status.connected" });
+                        node.status({ fill: "green", shape: "dot", text: "node-red:common.status.connected" });
                         if (clients[connection_id] && clients[connection_id].client) {
                             clients[connection_id].connected = true;
                             clients[connection_id].connecting = false;
@@ -205,7 +205,7 @@ module.exports = function (RED) {
                     });
                 }
                 else {
-                    node.warn(RED._("tcpin.errors.no-host"));
+                    node.warn(RED._("node-red:tcpin.errors.no-host"));
                 }
 
                 var chunk = "";
@@ -232,7 +232,7 @@ module.exports = function (RED) {
                                         nodeSend(msg);
                                     }
                                 }
-                                catch (e) { node.error(RED._("tcpin.errors.bad-string"), msg); }
+                                catch (e) { node.error(RED._("node-red:tcpin.errors.bad-string"), msg); }
                             }
                             else { nodeSend(msg); }
                         }
@@ -326,7 +326,7 @@ module.exports = function (RED) {
 
                 clients[connection_id].client.on('end', function () {
                     //console.log("END");
-                    node.status({ fill: "grey", shape: "ring", text: "common.status.disconnected" });
+                    node.status({ fill: "grey", shape: "ring", text: "node-red:common.status.disconnected" });
                     if (clients[connection_id] && clients[connection_id].client) {
                         clients[connection_id].connected = clients[connection_id].connecting = false;
                         clients[connection_id].client = null;
@@ -355,7 +355,7 @@ module.exports = function (RED) {
 
                 clients[connection_id].client.on('error', function () {
                     //console.log("ERROR");
-                    node.status({ fill: "red", shape: "ring", text: "common.status.error" });
+                    node.status({ fill: "red", shape: "ring", text: "node-red:common.status.error" });
                     node.error(RED._("tcpin.errors.connect-fail") + " " + connection_id, msg);
                     if (clients[connection_id] && clients[connection_id].client) {
                         clients[connection_id].client.destroy();
@@ -367,7 +367,7 @@ module.exports = function (RED) {
                     //console.log("TIMEOUT");
                     if (clients[connection_id]) {
                         clients[connection_id].connected = clients[connection_id].connecting = false;
-                        node.status({ fill: "grey", shape: "dot", text: "tcpin.errors.connect-timeout" });
+                        node.status({ fill: "grey", shape: "dot", text: "node-red:tcpin.errors.connect-timeout" });
                         //node.warn(RED._("tcpin.errors.connect-timeout"));
                         if (clients[connection_id].client) {
                             clients[connection_id].connecting = true;
@@ -381,7 +381,7 @@ module.exports = function (RED) {
                             clients[connection_id].client.connect(connOpts, function () {
                                 clients[connection_id].connected = true;
                                 clients[connection_id].connecting = false;
-                                node.status({ fill: "green", shape: "dot", text: "common.status.connected" });
+                                node.status({ fill: "green", shape: "dot", text: "node-red:common.status.connected" });
                             });
                         }
                     }

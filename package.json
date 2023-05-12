@@ -1,0 +1,36 @@
+{
+  "name": "node-red-contrib-tcp-request2",
+  "version": "1.0.0",
+  "description": "node-red tcp request2",
+  "main": "tcp-request2.js",
+  "node-red": {
+    "nodes": {
+      "tcp request2": "tcp-request2.js"
+    }
+  },
+  "scripts": {
+    "start": "node-red -u ./tmp",
+    "test": "mocha test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhangmx/node-red-contrib-tcp-request2.git"
+  },
+  "keywords": [
+    "node-red",
+    "tcp",
+    "request"
+  ],
+  "author": "mingxing zhang",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/zhangmx/node-red-contrib-tcp-request2/issues"
+  },
+  "homepage": "https://github.com/zhangmx/node-red-contrib-tcp-request2#readme",
+  "devDependencies": {
+    "@changesets/cli": "^2.26.1",
+    "mocha": "^10.2.0",
+    "node-red": "^3.0.2",
+    "node-red-node-test-helper": "^0.3.1"
+  }
+}

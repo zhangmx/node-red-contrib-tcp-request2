@@ -13,3 +13,12 @@ Different from the official tcp request node, tcp request2 has the following mod
 1. Splitc splits into two parameters with different meanings: waitingTime and waitingLength.
 2. After setting the waiting length, the default waitingTime is 0, and it will always wait for the request to return a reply of sufficient length.
 3. After setting the waiting length, set waitingTime, wait for waitingTime time, if there is no content or the content length is insufficient, return timeout; if the request returns a reply of sufficient length, end the wait and complete the request.
+
+## Development
+
+* Install dependencies using `npm install`
+* Run `npm start` to start a development version of node-red with the node installed.
+* To use it first create a dir called `./tmp` in this packages root dir and then change to it. Then run `npm install ..` to create a link to your working copy of the package for the node-red environment.
+* To run tests, execute `npm test`. To add tests, create a files `<description>.spec.js` with a mocha test specification.
+* Using [changesets](https://github.com/atlassian/changesets): Before committing a change that should be visible on the changelog run `npx changeset` and input the corresponding information into the wizard. Then add the created file in the `.changeset` folder to the commit.
+* Publishing: If not done yet, login to npm using `npm login`. Then run `npx changeset version` to create a new version number, update package.json and the CHANGELOG.md files. Commit these changes with message `Release VX.Y.Z`. Then run `npx changeset publish` to publish to npm. Now run `git push --follow-tags` to push the version tag created by changeset.

@@ -16,52 +16,52 @@
 
 <script type="text/html" data-template-name="tcp request2">
     <div class="form-row">
-        <label for="node-input-server"><i class="fa fa-globe"></i> <span data-i18n="tcpin.label.server"></span></label>
+        <label for="node-input-server"><i class="fa fa-globe"></i> <span data-i18n="node-red:tcpin.label.server"></span></label>
         <input type="text" id="node-input-server" placeholder="ip.address" style="width:45%">
         <input type="hidden" id="node-input-serverType">
-        <span data-i18n="tcpin.label.port"></span>
+        <span data-i18n="node-red:tcpin.label.port"></span>
         <input type="text" id="node-input-port" style="width:60px">
         <input type="hidden" id="node-input-portType">
     </div>
     <div class="form-row" id="node-input-tls-enable">
         <label> </label>
         <input type="checkbox" id="node-input-usetls" style="display: inline-block; width: auto; vertical-align: top;">
-        <label for="node-input-usetls" style="width: auto" data-i18n="httpin.use-tls"></label>
+        <label for="node-input-usetls" style="width: auto" data-i18n="node-red:httpin.use-tls"></label>
         <div id="node-row-tls" class="hide">
-            <label style="width: auto; margin-left: 20px; margin-right: 10px;" for="node-input-tls"><span data-i18n="httpin.tls-config"></span></label>
+            <label style="width: auto; margin-left: 20px; margin-right: 10px;" for="node-input-tls"><span data-i18n="node-red:httpin.tls-config"></span></label>
             <input type="text" style="width: 300px" id="node-input-tls">
         </div>
     </div>
     <div class="form-row">
-        <label for="node-input-ret"><i class="fa fa-sign-out"></i> <span data-i18n="tcpin.label.return"></span></label>
+        <label for="node-input-ret"><i class="fa fa-sign-out"></i> <span data-i18n="node-red:tcpin.label.return"></span></label>
         <select type="text" id="node-input-ret" style="width:54%;">
-            <option value="buffer" data-i18n="tcpin.output.buffer"></option>
-            <option value="string" data-i18n="tcpin.output.string"></option>
+            <option value="buffer" data-i18n="node-red:tcpin.output.buffer"></option>
+            <option value="string" data-i18n="node-red:tcpin.output.string"></option>
         </select>
     </div>
     <div class="form-row">
-        <label for="node-input-out"><i class="fa fa-sign-out fa-rotate-90"></i> <span data-i18n="tcpin.label.close"></span></label>
+        <label for="node-input-out"><i class="fa fa-sign-out fa-rotate-90"></i> <span data-i18n="node-red:tcpin.label.close"></span></label>
         <select type="text" id="node-input-out" style="width:54%;">
-            <option value="time" data-i18n="tcpin.return.timeout"></option>
-            <option value="char" data-i18n="tcpin.return.character"></option>
-            <option value="count" data-i18n="tcpin.return.number"></option>
-            <option value="sit" data-i18n="tcpin.return.never"></option>
-            <option value="immed" data-i18n="tcpin.return.immed"></option>
+            <option value="time" data-i18n="node-red:tcpin.return.timeout"></option>
+            <option value="char" data-i18n="node-red:tcpin.return.character"></option>
+            <option value="count" data-i18n="node-red:tcpin.return.number"></option>
+            <option value="sit" data-i18n="node-red:tcpin.return.never"></option>
+            <option value="immed" data-i18n="node-red:tcpin.return.immed"></option>
         </select>
         <input type="text" id="node-input-splitc" style="width:50px;">
         <input type="text" id="node-input-waitingLength" style="width:50px;">
         <input type="text" id="node-input-waitingTime" style="width:50px;">
-        <span id="node-units" data-i18n="tcpin.label.chars"></span>
+        <span id="node-units" data-i18n="node-red:tcpin.label.chars"></span>
         <input type="text" id="node-input-overTime" style="width:50px;">
-        <span id="node-units-time" data-i18n="tcpin.label.ms"></span>
+        <span id="node-units-time" data-i18n="node-red:tcpin.label.ms"></span>
     </div>
     <div id="node-row-newline" class="form-row hidden" style="padding-left:162px;">
-        <span data-i18n="tcpin.label.delimited"></span> <input type="text" id="node-input-newline" style="width:110px;" data-i18n="[placeholder]tcpin.label.optional"><br/>
-        <input type="checkbox" id="node-input-trim" style="display:inline-block; width:auto; vertical-align:top;"> <span data-i18n="tcpin.label.reattach"></span>
+        <span data-i18n="node-red:tcpin.label.delimited"></span> <input type="text" id="node-input-newline" style="width:110px;" data-i18n="[placeholder]node-red:tcpin.label.optional"><br/>
+        <input type="checkbox" id="node-input-trim" style="display:inline-block; width:auto; vertical-align:top;"> <span data-i18n="node-red:tcpin.label.reattach"></span>
     </div>
     <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="common.label.name"></span></label>
-        <input type="text" id="node-input-name" data-i18n="[placeholder]common.label.name">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="node-red:common.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]node-red:common.label.name">
     </div>
 </script>
 
