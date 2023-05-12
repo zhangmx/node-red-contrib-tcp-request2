@@ -9,7 +9,8 @@
     }
   },
   "scripts": {
-    "start": "node-red -u ./tmp",
+    "start": "node-red -u ./tmp -p 1888 ./examples/tcp_request2_demo.json",
+    "postinstall": "bash ./npm_postinstall.sh",
     "test": "mocha test/*.js"
   },
   "repository": {

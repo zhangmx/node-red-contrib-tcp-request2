@@ -1,0 +1,70 @@
+[
+    {
+        "id": "a1a9f5626a019087",
+        "type": "tab",
+        "label": "tcp request2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4e67794f261c250f",
+        "type": "tcp request2",
+        "z": "a1a9f5626a019087",
+        "name": "",
+        "server": "127.0.0.1",
+        "serverType": "str",
+        "port": "1889",
+        "portType": "str",
+        "out": "time",
+        "ret": "buffer",
+        "overTime": "0",
+        "waitingTime": "0",
+        "waitingLength": "65536",
+        "splitc": "\\n",
+        "newline": "",
+        "trim": false,
+        "tls": "",
+        "x": 410,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e1fcfc0f73dceb57",
+        "type": "tcp in",
+        "z": "a1a9f5626a019087",
+        "name": "",
+        "server": "server",
+        "host": "",
+        "port": "1889",
+        "datamode": "stream",
+        "datatype": "buffer",
+        "newline": "",
+        "topic": "",
+        "trim": false,
+        "base64": false,
+        "tls": "",
+        "x": 280,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e0ba0f142f6c0319",
+        "type": "tcp out",
+        "z": "a1a9f5626a019087",
+        "name": "",
+        "host": "",
+        "port": "",
+        "beserver": "reply",
+        "base64": false,
+        "end": false,
+        "tls": "",
+        "x": 990,
+        "y": 160,
+        "wires": []
+    }
+]
