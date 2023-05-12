@@ -51,7 +51,7 @@
         <input type="text" id="node-input-splitc" style="width:50px;" >
         <input type="text" id="node-input-waitingLength" style="width:50px;" >
         <input type="text" id="node-input-waitingTime" style="width:50px;" >
-        <span id="node-units" data-i18n="node-red:tcpin.label.ms"></span>
+        <span id="node-units"></span>
     </div>
     <div id="node-row-buffer" class="form-row" style="padding-left:162px;">
         <span data-i18n="label.buffer.length"></span> 
@@ -95,7 +95,7 @@
         },
         inputs: 1,
         outputs: 1,
-        icon: "bridge-dash.svg",
+        icon: "bridge.svg",
         label: function () {
             return this.name || "tcp:" + (this.server ? this.server + ":" : "") + this.port;
         },
@@ -138,43 +138,41 @@
                 else { $("#node-row-newline").hide(); }
             });
 
-            var previous = null;
-            $("#node-input-out")
-                .on("change", function () {
+            function updateBaseOptions() {
+                $("#node-input-splitc").hide();
+                $("#node-input-waitingLength").hide();
+                $("#node-input-waitingTime").hide();
+                $("#node-units").hide();
+                $("#node-row-buffer").hide();
+                $("#node-row-overtime").hide();
 
-                    $("#node-input-splitc").hide();
-                    $("#node-input-waitingLength").hide();
-                    $("#node-input-waitingTime").hide();
-                    $("#node-units").hide();
-                    $("#node-row-buffer").hide();
-                    $("#node-row-overtime").hide();
+                var outputType = $("#node-input-out").val();
+                if (outputType == "time") {
+                    $("#node-input-waitingTime").show();
+                    $("#node-units").show();
+                    $("#node-units").text(RED._("node-red:tcpin.label.ms"));
 
-                    var outputType = $("#node-input-out").val();
-                    if (outputType == "time") {
-                        $("#node-input-waitingTime").show();
-                        $("#node-units").show();
-                        $("#node-units").text(RED._("node-red:tcpin.label.ms"));
-
-                        $("#node-row-buffer").show();
-                        $("#node-row-overtime").show();
-                    }
-                    else if (outputType == "char") {
-                        $("#node-input-splitc").show();
-                        $("#node-row-buffer").show();
-                        $("#node-row-overtime").show();
-                    }
-                    else if ($("#node-input-out").val() == "count") {
-                        $("#node-input-waitingLength").show();
-                        $("#node-units").show();
-                        $("#node-units").text(RED._("node-red:tcpin.label.chars"));
-                        $("#node-row-overtime").show();
-                    }
-                    else if (outputType == "sit"){
-                        $("#node-row-buffer").show();
-                    }
-                    else if (outputType == "immed") {
-                    }
-                });
+                    $("#node-row-buffer").show();
+                    $("#node-row-overtime").show();
+                }
+                else if (outputType == "char") {
+                    $("#node-input-splitc").show();
+                    $("#node-row-buffer").show();
+                    $("#node-row-overtime").show();
+                }
+                else if (outputType == "count") {
+                    $("#node-input-waitingLength").show();
+                    $("#node-units").show();
+                    $("#node-units").text(RED._("node-red:tcpin.label.chars"));
+                    $("#node-row-overtime").show();
+                }
+                else if (outputType == "sit") {
+                    $("#node-row-buffer").show();
+                }
+                else if (outputType == "immed") {
+                }
+            }
+            $("#node-input-out").on("change", ()=>updateBaseOptions());
 
             function updateTLSOptions() {
                 if ($("#node-input-usetls").is(':checked')) {
@@ -189,10 +187,11 @@
             } else {
                 $('#node-input-usetls').prop('checked', false);
             }
+            
+            $("#node-input-usetls").on("click", ()=>updateTLSOptions());
+
             updateTLSOptions();
-            $("#node-input-usetls").on("click", function () {
-                updateTLSOptions();
-            });
+            updateBaseOptions();
         },
         oneditsave: function () {
             if (!$("#node-input-usetls").is(':checked')) {

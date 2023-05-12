@@ -16,7 +16,10 @@
 
 module.exports = function (RED) {
     "use strict";
-    let socketTimeout = RED.settings.socketTimeout || null;
+    // socketTimeout replace with node.overTime
+    // let socketTimeout = RED.settings.socketTimeout || null;
+    // console.log("socketTimeout: " + socketTimeout);
+
     const msgQueueSize = RED.settings.tcpMsgQueueSize || 1000;
     const Denque = require('denque');
     const net = require('net');
@@ -83,7 +86,7 @@ module.exports = function (RED) {
         // if (this.out === "immed") { this.waitingTime = -1; this.out = "time"; }
         // if (this.out !== "char") { this.waitingLength = Number(this.waitingLength); }
         // else {
-        if(this.out === "char") {
+        if (this.out === "char") {
             if (this.splitc[0] == '\\') {
                 this.splitc = parseInt(this.splitc.replace("\\n", 0x0A).replace("\\r", 0x0D).replace("\\t", 0x09).replace("\\e", 0x1B).replace("\\f", 0x0C).replace("\\0", 0x00));
             } // jshint ignore:line
@@ -107,9 +110,6 @@ module.exports = function (RED) {
                 msg.payload = msg.payload.toString();
             }
 
-            // var host = node.server || msg.host;
-            // var port = node.port || msg.port;
-
             var host = RED.util.evaluateNodeProperty(node.server, node.serverType, this, msg);
             var port = (RED.util.evaluateNodeProperty(node.port, node.portType, this, msg)) * 1;
             // Store client information independently
@@ -129,21 +129,21 @@ module.exports = function (RED) {
             clients[connection_id].lastMsg = msg;
 
             if (!clients[connection_id].connecting && !clients[connection_id].connected) {
-                var buf;
-                // if (this.out == "count") {
-                //     if (this.splitc === 0) { buf = Buffer.alloc(1); }
-                //     else { buf = Buffer.alloc(this.splitc); }
-                // }
-                // else { buf = Buffer.alloc(65536); } // set it to 64k... hopefully big enough for most TCP packets.... but only hopefully
 
-                buf = Buffer.alloc(node.waitingLength);
+                var buf;
+                if (this.out == "count") {
+                    if (this.waitingLength === 0) { buf = Buffer.alloc(1); }
+                    else { buf = Buffer.alloc(this.waitingLength); }
+                }
+                else { buf = Buffer.alloc(node.bufferLength); }
+
 
                 var connOpts = { host: host, port: port };
                 if (node.tls) {
 
                     let tlsNode = RED.nodes.getNode(node.tls);
-                    
-            
+
+
                     connOpts = tlsNode.addTLSOptions(connOpts);
                     const allowUnauthorized = getAllowUnauthorized();
 
@@ -179,12 +179,15 @@ module.exports = function (RED) {
                 else {
                     clients[connection_id].client = net.Socket();
                 }
-                if (socketTimeout !== null) { clients[connection_id].client.setTimeout(socketTimeout); }
 
+                if (node.overTime > 0) {
+                    clients[connection_id].client.setTimeout(node.overTime);
+                }
+                
                 if (host && port) {
                     clients[connection_id].connecting = true;
                     clients[connection_id].client.connect(connOpts, function () {
-                        //node.log(RED._("tcpin.errors.client-connected"));
+                        //node.log(RED._("node-red:tcpin.errors.client-connected"));
                         node.status({ fill: "green", shape: "dot", text: "node-red:common.status.connected" });
                         if (clients[connection_id] && clients[connection_id].client) {
                             clients[connection_id].connected = true;
@@ -356,7 +359,7 @@ module.exports = function (RED) {
                 clients[connection_id].client.on('error', function () {
                     //console.log("ERROR");
                     node.status({ fill: "red", shape: "ring", text: "node-red:common.status.error" });
-                    node.error(RED._("tcpin.errors.connect-fail") + " " + connection_id, msg);
+                    node.error(RED._("node-red:tcpin.errors.connect-fail") + " " + connection_id, msg);
                     if (clients[connection_id] && clients[connection_id].client) {
                         clients[connection_id].client.destroy();
                         delete clients[connection_id];
@@ -368,7 +371,7 @@ module.exports = function (RED) {
                     if (clients[connection_id]) {
                         clients[connection_id].connected = clients[connection_id].connecting = false;
                         node.status({ fill: "grey", shape: "dot", text: "node-red:tcpin.errors.connect-timeout" });
-                        //node.warn(RED._("tcpin.errors.connect-timeout"));
+                        //node.warn(RED._("node-red:tcpin.errors.connect-timeout"));
                         if (clients[connection_id].client) {
                             clients[connection_id].connecting = true;
 
