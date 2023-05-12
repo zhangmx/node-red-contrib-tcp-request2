@@ -68,7 +68,7 @@ module.exports = function (RED) {
         this.ret = n.ret || "buffer"; // default return is a buffer object( or string )
         this.newline = (n.newline || "").replace("\\n", "\n").replace("\\r", "\r").replace("\\t", "\t");
         this.trim = n.trim || false;
-
+        this.bufferLength = Number(n.bufferLength || 65536);
         this.overTime = Number(n.overTime);
 
         this.splitc = n.splitc;

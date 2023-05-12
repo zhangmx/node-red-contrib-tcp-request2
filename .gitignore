@@ -1,4 +1,5 @@
 node_modules/*
 .config.*
+*.backup
 tmp/node_modules/*
 package-lock.json

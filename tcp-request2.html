@@ -20,7 +20,7 @@
         <input type="text" id="node-input-server" placeholder="ip.address" style="width:45%">
         <input type="hidden" id="node-input-serverType">
         <span data-i18n="node-red:tcpin.label.port"></span>
-        <input type="text" id="node-input-port" style="width:60px">
+        <input type="text" id="node-input-port" style="width:140px">
         <input type="hidden" id="node-input-portType">
     </div>
     <div class="form-row" id="node-input-tls-enable">
@@ -48,11 +48,18 @@
             <option value="sit" data-i18n="node-red:tcpin.return.never"></option>
             <option value="immed" data-i18n="node-red:tcpin.return.immed"></option>
         </select>
-        <input type="text" id="node-input-splitc" style="width:50px;">
-        <input type="text" id="node-input-waitingLength" style="width:50px;">
-        <input type="text" id="node-input-waitingTime" style="width:50px;">
-        <span id="node-units" data-i18n="node-red:tcpin.label.chars"></span>
-        <input type="text" id="node-input-overTime" style="width:50px;">
+        <input type="text" id="node-input-splitc" style="width:50px;" >
+        <input type="text" id="node-input-waitingLength" style="width:50px;" >
+        <input type="text" id="node-input-waitingTime" style="width:50px;" >
+        <span id="node-units" data-i18n="node-red:tcpin.label.ms"></span>
+    </div>
+    <div id="node-row-buffer" class="form-row" style="padding-left:162px;">
+        <span data-i18n="label.buffer.length"></span> 
+        <input type="text" id="node-input-bufferLength" style="width:110px;">
+    </div>
+    <div id="node-row-overtime" class="form-row" style="padding-left:162px;">
+        <span data-i18n="label.overTime"></span> 
+        <input type="text" id="node-input-overTime" style="width:110px;" value="0" data-i18n="[placeholder]node-red:tcpin.label.optional">
         <span id="node-units-time" data-i18n="node-red:tcpin.label.ms"></span>
     </div>
     <div id="node-row-newline" class="form-row hidden" style="padding-left:162px;">
@@ -71,26 +78,17 @@
         color: "Silver",
         defaults: {
             name: { value: "" },
-            // server: { 
-            //     value: "" 
-            // },
-
             server: { value: "", required: false, validate: RED.validators.typedInput("serverType") },
             serverType: { value: "str" },
-            port: { value: "", required: false, validate: RED.validators.typedInput("portType") ,label: RED._("node-red:tcpin.label.port"),},
+            port: { value: "", required: false, validate: RED.validators.typedInput("portType"), label: RED._("node-red:tcpin.label.port"), },
             portType: { value: "str" },
-
-            // port: {
-            //     value: "",
-            //     label: RED._("node-red:tcpin.label.port"),
-            //     validate: RED.validators.regex(/^(\d*|)$/)
-            // },
             out: { value: "time", required: true },
             ret: { value: "buffer" },
             overTime: { value: "0", required: true },
             waitingTime: { value: "0", required: true },
-            waitingLength: { value: "65536", required: true },
+            waitingLength: { value: "12", required: true },
             splitc: { value: "\\n", required: true }, // split character
+            bufferLength: { value: "65536", required: true },
             newline: { value: "" },
             trim: { value: false },
             tls: { type: "tls-config", value: '', required: false, label: RED._("node-red:httpin.tls-config") }
@@ -110,23 +108,23 @@
                 this.serverType = "str";
             }
             $("#node-input-serverType").val(this.serverType);
-            $("#node-input-server").typedInput({ 
-                default: 'str', 
+            $("#node-input-server").typedInput({
+                default: 'str',
                 typeField: $("#node-input-serverType"),
-                types: ['str', 'msg', 'flow', 'global', 'env'] 
+                types: ['str', 'msg', 'flow', 'global', 'env']
             });
 
             if (this.portType == null || this.portType === 'string' || this.portType === 'none') {
                 this.portType = "str";
             }
             $("#node-input-portType").val(this.portType);
-            $("#node-input-port").typedInput({ 
-                default: 'str', 
+            $("#node-input-port").typedInput({
+                default: 'str',
                 typeField: $("#node-input-portType"),
-                types: ['str', 'msg', 'flow', 'global', 'env'] 
+                types: ['str', 'msg', 'flow', 'global', 'env']
             });
 
-            var previous = null;
+
             if ($("#node-input-ret").val() == undefined) {
                 $("#node-input-ret").val("buffer");
                 this.ret = "buffer";
@@ -139,57 +137,42 @@
                 if ($("#node-input-ret").val() === "string" && $("#node-input-out").val() === "sit") { $("#node-row-newline").show(); }
                 else { $("#node-row-newline").hide(); }
             });
-            $("#node-input-out").on('focus', function () { previous = this.value; })
+
+            var previous = null;
+            $("#node-input-out")
                 .on("change", function () {
-                    $("#node-input-splitc").show();
-                    $("#node-input-waitingLength").show();
-                    $("#node-input-waitingTime").show();
-                    $("#node-units-time").show();
 
-                    if (previous === null) { previous = $("#node-input-out").val(); }
+                    $("#node-input-splitc").hide();
+                    $("#node-input-waitingLength").hide();
+                    $("#node-input-waitingTime").hide();
+                    $("#node-units").hide();
+                    $("#node-row-buffer").hide();
+                    $("#node-row-overtime").hide();
 
-                    if ($("#node-input-out").val() == "char") {
-                        if (previous != "char") {
-                            // $("#node-input-waitingLength").hide();
-                            $("#node-input-splitc").val("\\n");
-                        }
-                        $("#node-units").text(RED._("node-red:tcpin.label.chars"));
-                        // $("#node-units").text("");
+                    var outputType = $("#node-input-out").val();
+                    if (outputType == "time") {
+                        $("#node-input-waitingTime").show();
+                        $("#node-units").show();
+                        $("#node-units").text(RED._("node-red:tcpin.label.ms"));
+
+                        $("#node-row-buffer").show();
+                        $("#node-row-overtime").show();
                     }
-                    else if ($("#node-input-out").val() == "time") {
-                        if (previous != "time") {
-                            // buffer still could be setup
-                            // $("#node-input-waitingLength").hide();
-                            $("#node-input-splitc").hide();
-                            $("#node-input-waitingTime").val("0");
-
-                        }
-                        // $("#node-units").text(RED._("node-red:tcpin.label.ms"));
-                    }
-                    else if ($("#node-input-out").val() == "immed") {
-                        if (previous != "immed") {
-                            $("#node-input-splitc").val(" ");
-                        }
-                        $("#node-units").text("");
-                        $("#node-input-splitc").hide();
-                        $("#node-input-waitingLength").hide();
-                        $("#node-input-waitingTime").hide();
-                        $("#node-units-time").hide();
+                    else if (outputType == "char") {
+                        $("#node-input-splitc").show();
+                        $("#node-row-buffer").show();
+                        $("#node-row-overtime").show();
                     }
                     else if ($("#node-input-out").val() == "count") {
-                        if (previous != "count") {
-                            $("#node-input-waitingLength").val("12");
-                            $("#node-input-splitc").hide();
-                        }
+                        $("#node-input-waitingLength").show();
+                        $("#node-units").show();
                         $("#node-units").text(RED._("node-red:tcpin.label.chars"));
+                        $("#node-row-overtime").show();
                     }
-                    else {
-                        if (previous != "sit") { $("#node-input-splitc").val(" "); }
-                        $("#node-units").text("");
-                        $("#node-input-splitc").hide();
-                        $("#node-input-waitingLength").hide();
-                        $("#node-input-waitingTime").hide();
-                        $("#node-units-time").hide();
+                    else if (outputType == "sit"){
+                        $("#node-row-buffer").show();
+                    }
+                    else if (outputType == "immed") {
                     }
                 });
 
