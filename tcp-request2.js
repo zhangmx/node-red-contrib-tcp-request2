@@ -61,19 +61,29 @@ module.exports = function (RED) {
     function TcpRequest2(n) {
         RED.nodes.createNode(this, n);
         this.server = n.server;
-        this.port = Number(n.port);
-        this.out = n.out;
-        this.ret = n.ret || "buffer";
+        this.serverType = n.serverType || "str";
+        this.port = n.port;
+        this.portType = n.portType || "str";
+        this.out = n.out; // "time" or "char" or "count"
+        this.ret = n.ret || "buffer"; // default return is a buffer object( or string )
         this.newline = (n.newline || "").replace("\\n", "\n").replace("\\r", "\r").replace("\\t", "\t");
         this.trim = n.trim || false;
-        this.splitc = n.splitc;
-        if (n.tls) {
-            var tlsNode = RED.nodes.getNode(n.tls);
-        }
 
-        if (this.out === "immed") { this.splitc = -1; this.out = "time"; }
-        if (this.out !== "char") { this.splitc = Number(this.splitc); }
-        else {
+        this.overTime = Number(n.overTime);
+
+        this.splitc = n.splitc;
+        this.waitingTime = Number(n.waitingTime);
+        this.waitingLength = Number(n.waitingLength);
+
+        this.tls = n.tls;
+        // if (n.tls) {
+        //     var tlsNode = RED.nodes.getNode(n.tls);
+        // }
+
+        // if (this.out === "immed") { this.waitingTime = -1; this.out = "time"; }
+        // if (this.out !== "char") { this.waitingLength = Number(this.waitingLength); }
+        // else {
+        if(this.out === "char")
             if (this.splitc[0] == '\\') {
                 this.splitc = parseInt(this.splitc.replace("\\n", 0x0A).replace("\\r", 0x0D).replace("\\t", 0x09).replace("\\e", 0x1B).replace("\\f", 0x0C).replace("\\0", 0x00));
             } // jshint ignore:line
@@ -97,9 +107,11 @@ module.exports = function (RED) {
                 msg.payload = msg.payload.toString();
             }
 
-            var host = node.server || msg.host;
-            var port = node.port || msg.port;
+            // var host = node.server || msg.host;
+            // var port = node.port || msg.port;
 
+            var host = RED.util.evaluateNodeProperty(node.server, node.serverType, this, msg);
+            var port = (RED.util.evaluateNodeProperty(node.port, node.portType, this, msg)) * 1;
             // Store client information independently
             // the clients object will have:
             // clients[id].client, clients[id].msg, clients[id].timeout
@@ -118,14 +130,20 @@ module.exports = function (RED) {
 
             if (!clients[connection_id].connecting && !clients[connection_id].connected) {
                 var buf;
-                if (this.out == "count") {
-                    if (this.splitc === 0) { buf = Buffer.alloc(1); }
-                    else { buf = Buffer.alloc(this.splitc); }
-                }
-                else { buf = Buffer.alloc(65536); } // set it to 64k... hopefully big enough for most TCP packets.... but only hopefully
+                // if (this.out == "count") {
+                //     if (this.splitc === 0) { buf = Buffer.alloc(1); }
+                //     else { buf = Buffer.alloc(this.splitc); }
+                // }
+                // else { buf = Buffer.alloc(65536); } // set it to 64k... hopefully big enough for most TCP packets.... but only hopefully
+
+                buf = Buffer.alloc(node.waitingLength);
 
                 var connOpts = { host: host, port: port };
-                if (n.tls) {
+                if (node.tls) {
+
+                    let tlsNode = RED.nodes.getNode(node.tls);
+                    
+            
                     connOpts = tlsNode.addTLSOptions(connOpts);
                     const allowUnauthorized = getAllowUnauthorized();
 
@@ -176,7 +194,8 @@ module.exports = function (RED) {
                                 clients[connection_id].client.write(event.msg.payload);
                                 event.nodeDone();
                             }
-                            if (node.out === "time" && node.splitc < 0) {
+                            // if (node.out === "time" && node.waitingTime < 0) {
+                            if (node.out === "immed") {
                                 clients[connection_id].connected = clients[connection_id].connecting = false;
                                 clients[connection_id].client.end();
                                 delete clients[connection_id];
@@ -188,6 +207,7 @@ module.exports = function (RED) {
                 else {
                     node.warn(RED._("tcpin.errors.no-host"));
                 }
+
                 var chunk = "";
                 clients[connection_id].client.on('data', function (data) {
                     if (node.out === "sit") { // if we are staying connected just send the buffer
@@ -248,7 +268,7 @@ module.exports = function (RED) {
                                                     delete clients[connection_id];
                                                 }
                                             }
-                                        }, node.splitc);
+                                        }, node.waitingTime);
                                         i = 0;
                                         buf[0] = data[j];
                                     }
@@ -258,7 +278,7 @@ module.exports = function (RED) {
                             else if (node.out == "count") {
                                 buf[i] = data[j];
                                 i += 1;
-                                if (i >= node.splitc) {
+                                if (i >= node.waitingLength) {
                                     if (clients[connection_id]) {
                                         const msg = clients[connection_id].lastMsg || {};
                                         msg.payload = Buffer.alloc(i);
@@ -353,7 +373,8 @@ module.exports = function (RED) {
                             clients[connection_id].connecting = true;
 
                             var connOpts = { host: host, port: port };
-                            if (n.tls) {
+                            if (node.tls) {
+                                let tlsNode = RED.nodes.getNode(node.tls);
                                 connOpts = tlsNode.addTLSOptions(connOpts);
                             }
 
