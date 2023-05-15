@@ -1,5 +1,5 @@
 {
-  "name": "@zhangmx/node-red-contrib-tcp-request2",
+  "name": "@mingxingzhang/node-red-contrib-tcp-request2",
   "version": "1.0.2",
   "description": "node-red tcp request2",
   "main": "tcp-request2.js",
@@ -13,6 +13,9 @@
     "start": "node-red -u ./tmp -p 1888 ./examples/tcp_request2_demo.json",
     "postinstall": "bash ./npm_postinstall.sh",
     "test": "mocha test/*.js"
+  },
+  "engines": {
+    "node": "^12.0.0 || ^14.19.0 || >=16.0.0"
   },
   "repository": {
     "type": "git",
