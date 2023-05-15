@@ -4,7 +4,7 @@
   "description": "node-red tcp request2",
   "main": "tcp-request2.js",
   "node-red": {
-    "version": ">=2.0.0",
+    "version": ">=1.0.0",
     "nodes": {
       "tcp request2": "tcp-request2.js"
     }
@@ -12,10 +12,11 @@
   "scripts": {
     "start": "node-red -u ./tmp -p 1888 ./examples/tcp_request2_demo.json",
     "postinstall": "bash ./npm_postinstall.sh",
+    "validate": "node-red-dev validate -p .",
     "test": "mocha test/*.js"
   },
   "engines": {
-    "node": "^12.0.0 || ^14.19.0 || >=16.0.0"
+    "node": ">=12.0.0"
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,7 @@
     "@changesets/cli": "^2.26.1",
     "mocha": "^10.2.0",
     "node-red": "^3.0.2",
+    "node-red-dev": "^0.1.5",
     "node-red-node-test-helper": "^0.3.1"
   }
 }
