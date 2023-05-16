@@ -1,8 +1,12 @@
 {
     "label": {
         "overTime": "Over time",
+        "maxRetries": "Retry times",
         "buffer": {
             "length": "Buffer length"
         }
+    },
+    "status": {
+        "retries": "retries __count__"
     }
 }

@@ -61,6 +61,8 @@
         <span data-i18n="label.overTime"></span> 
         <input type="text" id="node-input-overTime" style="width:110px;" value="0" data-i18n="[placeholder]node-red:tcpin.label.optional">
         <span id="node-units-time" data-i18n="node-red:tcpin.label.ms"></span>
+        <span data-i18n="label.maxRetries"></span> 
+        <input type="text" id="node-input-maxRetries" style="width:110px;" value="0" data-i18n="[placeholder]node-red:tcpin.label.optional">
     </div>
     <div id="node-row-newline" class="form-row hidden" style="padding-left:162px;">
         <span data-i18n="node-red:tcpin.label.delimited"></span> <input type="text" id="node-input-newline" style="width:110px;" data-i18n="[placeholder]node-red:tcpin.label.optional"><br/>
@@ -84,11 +86,12 @@
             portType: { value: "str" },
             out: { value: "time", required: true },
             ret: { value: "buffer" },
-            overTime: { value: "0", required: true },
+            overTime: { value: "0", required: false },
+            maxRetries: { value: "0", required: false },
             waitingTime: { value: "0", required: true },
             waitingLength: { value: "12", required: true },
             splitc: { value: "\\n", required: true }, // split character
-            bufferLength: { value: "65536", required: true },
+            bufferLength: { value: "65536", required: false },
             newline: { value: "" },
             trim: { value: false },
             tls: { type: "tls-config", value: '', required: false, label: RED._("node-red:httpin.tls-config") }
@@ -172,7 +175,7 @@
                 else if (outputType == "immed") {
                 }
             }
-            $("#node-input-out").on("change", ()=>updateBaseOptions());
+            $("#node-input-out").on("change", () => updateBaseOptions());
 
             function updateTLSOptions() {
                 if ($("#node-input-usetls").is(':checked')) {
@@ -187,8 +190,8 @@
             } else {
                 $('#node-input-usetls').prop('checked', false);
             }
-            
-            $("#node-input-usetls").on("click", ()=>updateTLSOptions());
+
+            $("#node-input-usetls").on("click", () => updateTLSOptions());
 
             updateTLSOptions();
             updateBaseOptions();

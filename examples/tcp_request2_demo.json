@@ -962,7 +962,7 @@
         "type": "tcp request2",
         "z": "a1a9f5626a019087",
         "g": "6e26d493c95b5ec0",
-        "name": "timeout of 3000ms;over time 1000ms",
+        "name": "timeout of 3000ms;over time 1000ms; retry 2",
         "server": "127.0.0.1",
         "serverType": "str",
         "port": "1889",
@@ -970,6 +970,7 @@
         "out": "time",
         "ret": "buffer",
         "overTime": "1000",
+        "maxRetries": "2",
         "waitingTime": "3000",
         "waitingLength": "12",
         "splitc": "\\n",
@@ -977,7 +978,7 @@
         "newline": "",
         "trim": false,
         "tls": "",
-        "x": 370,
+        "x": 390,
         "y": 300,
         "wires": [
             [
