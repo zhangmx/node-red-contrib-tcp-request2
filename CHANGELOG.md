@@ -1,5 +1,11 @@
 # node-red-contrib-tcp-request2
 
+## 1.0.5
+
+### Patch Changes
+
+- change error to node status
+
 ## 1.0.2
 
 ### Patch Changes
