@@ -11,7 +11,6 @@
   },
   "scripts": {
     "start": "node-red -u ./tmp -p 1888 ./examples/tcp_request2_demo.json",
-    "postinstall": "bash ./npm_postinstall.sh",
     "validate": "node-red-dev validate -p .",
     "test": "mocha test/*.js"
   },

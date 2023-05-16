@@ -28,7 +28,7 @@ Different from the official tcp request node, tcp request2 has the following mod
 
 ### 2. Logical
 
-With test tpc server like this:
+With test tcp server like this:
 
 ![test tpc server](./images/testserver.png)
 
