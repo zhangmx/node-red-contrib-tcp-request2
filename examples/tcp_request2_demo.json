@@ -65,14 +65,12 @@
             "fbfee2efecdcb0be",
             "56913af52aba7263",
             "c231fc8f0eadf00a",
-            "d85739c12202848c",
-            "8d9c5281b5f277aa",
-            "97462adb31b4b790"
+            "d85739c12202848c"
         ],
-        "x": 14,
-        "y": 39,
+        "x": 34,
+        "y": 139,
         "w": 792,
-        "h": 582
+        "h": 482
     },
     {
         "id": "285d693b7e668763",
@@ -235,8 +233,8 @@
         "newline": "",
         "trim": false,
         "tls": "",
-        "x": 330,
-        "y": 120,
+        "x": 350,
+        "y": 220,
         "wires": [
             [
                 "3a096697383f3eaa"
@@ -265,8 +263,8 @@
         "topic": "",
         "payload": "[1]",
         "payloadType": "bin",
-        "x": 110,
-        "y": 120,
+        "x": 130,
+        "y": 220,
         "wires": [
             [
                 "1bbc32e11c91736d"
@@ -359,8 +357,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 670,
-        "y": 120,
+        "x": 690,
+        "y": 220,
         "wires": []
     },
     {
@@ -748,8 +746,8 @@
         "g": "6e26d493c95b5ec0",
         "name": "[1,2,3,4]",
         "info": "",
-        "x": 120,
-        "y": 80,
+        "x": 140,
+        "y": 180,
         "wires": []
     },
     {
@@ -772,8 +770,8 @@
         "newline": "",
         "trim": false,
         "tls": "",
-        "x": 350,
-        "y": 280,
+        "x": 370,
+        "y": 380,
         "wires": [
             [
                 "3a096697383f3eaa"
@@ -802,8 +800,8 @@
         "topic": "",
         "payload": "[1]",
         "payloadType": "bin",
-        "x": 110,
-        "y": 280,
+        "x": 130,
+        "y": 380,
         "wires": [
             [
                 "2901fe8626c67876"
@@ -815,10 +813,10 @@
         "type": "comment",
         "z": "a1a9f5626a019087",
         "g": "6e26d493c95b5ec0",
-        "name": "[1,2,3]",
+        "name": "connect timeout",
         "info": "",
-        "x": 110,
-        "y": 240,
+        "x": 160,
+        "y": 340,
         "wires": []
     },
     {
@@ -826,14 +824,14 @@
         "type": "tcp request2",
         "z": "a1a9f5626a019087",
         "g": "6e26d493c95b5ec0",
-        "name": "timeout of 5000ms;over time 2000ms",
+        "name": "timeout of 5000ms;over time 3000ms",
         "server": "127.0.0.1",
         "serverType": "str",
         "port": "1889",
         "portType": "str",
         "out": "time",
         "ret": "buffer",
-        "overTime": "2000",
+        "overTime": "3000",
         "waitingTime": "5000",
         "waitingLength": "12",
         "splitc": "\\n",
@@ -841,8 +839,8 @@
         "newline": "",
         "trim": false,
         "tls": "",
-        "x": 350,
-        "y": 380,
+        "x": 370,
+        "y": 480,
         "wires": [
             [
                 "3a096697383f3eaa"
@@ -871,8 +869,8 @@
         "topic": "",
         "payload": "[1]",
         "payloadType": "bin",
-        "x": 110,
-        "y": 380,
+        "x": 130,
+        "y": 480,
         "wires": [
             [
                 "dd98f08d2a8d31cb"
@@ -886,8 +884,8 @@
         "g": "6e26d493c95b5ec0",
         "name": "[1,2,3,4,5]",
         "info": "",
-        "x": 120,
-        "y": 340,
+        "x": 140,
+        "y": 440,
         "wires": []
     },
     {
@@ -910,8 +908,8 @@
         "newline": "",
         "trim": false,
         "tls": "",
-        "x": 350,
-        "y": 480,
+        "x": 370,
+        "y": 580,
         "wires": [
             [
                 "3a096697383f3eaa"
@@ -940,8 +938,8 @@
         "topic": "",
         "payload": "[1]",
         "payloadType": "bin",
-        "x": 110,
-        "y": 480,
+        "x": 130,
+        "y": 580,
         "wires": [
             [
                 "46850c8dbfa680e1"
@@ -955,8 +953,8 @@
         "g": "6e26d493c95b5ec0",
         "name": "[1,2,3,4,5,6]",
         "info": "",
-        "x": 130,
-        "y": 440,
+        "x": 150,
+        "y": 540,
         "wires": []
     },
     {
@@ -979,8 +977,8 @@
         "newline": "",
         "trim": false,
         "tls": "",
-        "x": 350,
-        "y": 200,
+        "x": 370,
+        "y": 300,
         "wires": [
             [
                 "3a096697383f3eaa"
@@ -1009,8 +1007,8 @@
         "topic": "",
         "payload": "[1]",
         "payloadType": "bin",
-        "x": 110,
-        "y": 200,
+        "x": 130,
+        "y": 300,
         "wires": [
             [
                 "56913af52aba7263"
@@ -1022,46 +1020,10 @@
         "type": "comment",
         "z": "a1a9f5626a019087",
         "g": "6e26d493c95b5ec0",
-        "name": "this get error: tcpin.errors.connect-fail 127.0.0.1:1889",
+        "name": "connect timeout",
         "info": "",
-        "x": 250,
-        "y": 160,
-        "wires": []
-    },
-    {
-        "id": "8d9c5281b5f277aa",
-        "type": "catch",
-        "z": "a1a9f5626a019087",
-        "g": "6e26d493c95b5ec0",
-        "name": "catch `timeout of 3000ms;over time 1000ms` error",
-        "scope": [
-            "56913af52aba7263"
-        ],
-        "uncaught": false,
-        "x": 220,
-        "y": 580,
-        "wires": [
-            [
-                "97462adb31b4b790"
-            ]
-        ]
-    },
-    {
-        "id": "97462adb31b4b790",
-        "type": "debug",
-        "z": "a1a9f5626a019087",
-        "g": "6e26d493c95b5ec0",
-        "name": "catch error",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "error.message",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 650,
-        "y": 580,
+        "x": 160,
+        "y": 260,
         "wires": []
     },
     {
@@ -1290,9 +1252,9 @@
         "type": "comment",
         "z": "a1a9f5626a019087",
         "g": "285d693b7e668763",
-        "name": "connect failed 127.0.0.1:1889",
+        "name": "connect timeout",
         "info": "",
-        "x": 180,
+        "x": 140,
         "y": 800,
         "wires": []
     },
@@ -1301,14 +1263,14 @@
         "type": "tcp request2",
         "z": "a1a9f5626a019087",
         "g": "285d693b7e668763",
-        "name": "when receive \\n; over time 2000ms",
+        "name": "when receive \\n; over time 3000ms",
         "server": "127.0.0.1",
         "serverType": "str",
         "port": "1889",
         "portType": "str",
         "out": "char",
         "ret": "buffer",
-        "overTime": "2000",
+        "overTime": "3000",
         "waitingTime": "0",
         "waitingLength": "12",
         "splitc": "\\n",
@@ -1515,9 +1477,9 @@
         "type": "comment",
         "z": "a1a9f5626a019087",
         "g": "c38c465d3854823a",
-        "name": "connect failed 127.0.0.1:1889",
+        "name": "connect timeout",
         "info": "",
-        "x": 180,
+        "x": 140,
         "y": 1100,
         "wires": []
     },
@@ -1798,9 +1760,9 @@
         "type": "comment",
         "z": "a1a9f5626a019087",
         "g": "c38c465d3854823a",
-        "name": "connect failed 127.0.0.1:1889",
+        "name": "connect timeout",
         "info": "",
-        "x": 180,
+        "x": 140,
         "y": 1360,
         "wires": []
     },

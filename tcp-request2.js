@@ -183,7 +183,7 @@ module.exports = function (RED) {
                 if (node.overTime > 0) {
                     clients[connection_id].client.setTimeout(node.overTime);
                 }
-                
+
                 if (host && port) {
                     clients[connection_id].connecting = true;
                     clients[connection_id].client.connect(connOpts, function () {
@@ -328,7 +328,7 @@ module.exports = function (RED) {
                 });
 
                 clients[connection_id].client.on('end', function () {
-                    //console.log("END");
+                    // console.log("END");
                     node.status({ fill: "grey", shape: "ring", text: "node-red:common.status.disconnected" });
                     if (clients[connection_id] && clients[connection_id].client) {
                         clients[connection_id].connected = clients[connection_id].connecting = false;
@@ -357,7 +357,7 @@ module.exports = function (RED) {
                 });
 
                 clients[connection_id].client.on('error', function () {
-                    //console.log("ERROR");
+                    // console.log("ERROR");
                     node.status({ fill: "red", shape: "ring", text: "node-red:common.status.error" });
                     node.error(RED._("node-red:tcpin.errors.connect-fail") + " " + connection_id, msg);
                     if (clients[connection_id] && clients[connection_id].client) {
@@ -367,25 +367,30 @@ module.exports = function (RED) {
                 });
 
                 clients[connection_id].client.on('timeout', function () {
-                    //console.log("TIMEOUT");
+                    // console.log("TIMEOUT");
+                    // console.log(new Date());
                     if (clients[connection_id]) {
                         clients[connection_id].connected = clients[connection_id].connecting = false;
                         node.status({ fill: "grey", shape: "dot", text: "node-red:tcpin.errors.connect-timeout" });
                         //node.warn(RED._("node-red:tcpin.errors.connect-timeout"));
                         if (clients[connection_id].client) {
-                            clients[connection_id].connecting = true;
+                            // clients[connection_id].connecting = true;
 
-                            var connOpts = { host: host, port: port };
-                            if (node.tls) {
-                                let tlsNode = RED.nodes.getNode(node.tls);
-                                connOpts = tlsNode.addTLSOptions(connOpts);
-                            }
+                            // var connOpts = { host: host, port: port };
 
-                            clients[connection_id].client.connect(connOpts, function () {
-                                clients[connection_id].connected = true;
-                                clients[connection_id].connecting = false;
-                                node.status({ fill: "green", shape: "dot", text: "node-red:common.status.connected" });
-                            });
+                            // if (node.tls) {
+                            //     let tlsNode = RED.nodes.getNode(node.tls);
+                            //     connOpts = tlsNode.addTLSOptions(connOpts);
+                            // }
+
+                            // clients[connection_id].client.connect(connOpts, function () {
+                            //     clients[connection_id].connected = true;
+                            //     clients[connection_id].connecting = false;
+                            //     node.status({ fill: "green", shape: "dot", text: "node-red:common.status.connected" });
+                            // });
+
+                            clients[connection_id].client.destroy();
+                            delete clients[connection_id];
                         }
                     }
                 });
