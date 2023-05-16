@@ -1,6 +1,6 @@
 {
   "name": "@mingxingzhang/node-red-contrib-tcp-request2",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "node-red tcp request2",
   "main": "tcp-request2.js",
   "node-red": {

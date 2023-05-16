@@ -1,5 +1,11 @@
 # node-red-contrib-tcp-request2
 
+## 1.0.7
+
+### Patch Changes
+
+- add maxRetries
+
 ## 1.0.5
 
 ### Patch Changes
