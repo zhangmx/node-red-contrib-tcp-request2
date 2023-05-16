@@ -372,6 +372,7 @@ module.exports = function (RED) {
                     if (clients[connection_id]) {
                         clients[connection_id].connected = clients[connection_id].connecting = false;
                         node.status({ fill: "grey", shape: "dot", text: "node-red:tcpin.errors.connect-timeout" });
+                        node.error(RED._("node-red:tcpin.errors.connect-timeout") + " " + connection_id, msg);
                         //node.warn(RED._("node-red:tcpin.errors.connect-timeout"));
                         if (clients[connection_id].client) {
                             // clients[connection_id].connecting = true;
